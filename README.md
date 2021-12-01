@@ -2,7 +2,7 @@
 
 
 
-Boto tets.py
+boto_test.py
 ============
 
 
