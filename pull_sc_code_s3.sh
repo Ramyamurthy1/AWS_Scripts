@@ -1,7 +1,7 @@
 ########################################
 #######################################
-# 1. Pull Code from S3 or/and 
-# 2. Run Auutomated script and 
+# 1. Pull Code from S3
+# 2. Run Auutomated script
 # 3. Upload the results to s3
 ###########################################
 ##########################################
@@ -15,11 +15,11 @@ require_env() {
 }
 
 
+'''
 
-
-if [[ "$#" -eq 0 ]] || [[ "$#" -gt 2 ]]; then
+if [[ "$#" -eq 0 ]]; then
         echo "Invalid input"
-        echo "Usage: Pull_test_code.sh <CODE_REPO_NAME> <TEST_DATA_FILE>"
+        echo "Usage: Pull_test_code.sh <CODE_REPO_NAME>"
         exit
 else
         CODE_REPO_NAME=$1
@@ -27,14 +27,12 @@ else
         echo $CODE_REPO_NAME
         echo $TEST_DATA_FILE
 fi
-
+'''
 
 BUCKET_NAME="ibm-dish-sourcecode"
-echo $BUCKET_NAME
+TEST_DATA_BUCKET="ibm-dish-sourcecode"
 
 
-TEST_PATH=${CODE_REPO_NAME}/TestAutomation/Code/all_rfss/
-TEST_DATA_PATH=${CODE_REPO_NAME}/TestAutomation/TestData/dish-test
 
 require_env AWS_ACCESS_KEY_ID
 require_env AWS_SECRET_ACCESS_KEY
@@ -54,8 +52,7 @@ then
 
 else
      echo "Bucket Exists $BUCKET_NAME"
-     #file_name=$(aws s3 cp "s3://ibm-dish-sourcecode/COMPOSER-Release-0.22.13.tar ./" 2>&1)
-     CHECK_FILE_NAME=$(echo $S3_CHECK | grep -c '$CODE_REPO_NAME')
+     CHECK_FILE_NAME=$(echo $S3_CHECK | grep -c $CODE_REPO_NAME)
      echo $CHECK_FILE_NAME
      if [[ $CHECK_FILE_NAME = 1 ]]; then
                 echo "file exists"
@@ -66,27 +63,56 @@ else
      fi
 fi
 
-echo  -e "Enter the action to be performed. \n USAGE: \n a. Code_Pull - to Pull the code only \n b. Run _test - To Run Automated Test \n c. Both - To update the code from S3 and run automated tests"
-echo "<><><><>><><><><><><><><><><><><><><><><><><><><><><><><>"
-read -p 'Enter action to be performed : ' 'user_action'
-echo $user_action
+
+while true; do
+
+     echo  -e "Enter the action to be performed. \n USAGE: \n a - to Pull the code only \n b - To Run Automated Test \n c - To update the code from S3 and run automated tests \n d - To Copy test data excel file from S3 \n e - to Exit"
+     echo "<><><><>><><><><><><><><><><><><><><><><><><><><><><><><>"
+     read -p 'Enter action to be performed : ' 'user_action'
+     echo $user_action
 
 
-if [[ $user_action == [Cc][Oo][Dd][Ee]_[Pp][Uu][Ll][Ll] ]]; then
-        #aws s3 cp s3://ibm-dish-sourcecode/$CODE_REPO_NAME ./
-        #tar -xvf  $CODE_REPO_NAME
-        echo "pulling code"
+     if [[ $user_action == "a" ]]; then
+             read -p 'Enter the Test Automation Code Repo name : ' 'CODE_REPO_NAME'
+             echo $CODE_REPO_NAME
+             export $CODE_REPO_NAME
+             #aws s3 cp s3://ibm-dish-sourcecode/$CODE_REPO_NAME ./
+             #tar -xvf  $CODE_REPO_NAME
+             echo "pulling code"
 
-elif [[ $user_action == [Rr][Uu][Nn]_[Tt][Ee][Ss][Tt] ]]; then
-        cd $TEST_PATH
-        python3 main_csv.py $TEST_DATA_PATH/$TEST_DATA_FILE
+     elif [[ $user_action == "b" ]]; then
+             read -p 'Enter the code repo release : ' 'CODE_REPO_NAME'
+             read -p 'Enter the file name for test execution : ' 'DATA_FILE'
+             echo $CODE_REPO_NAME
+             echo ${DATA_FILE}
+             TEST_DATA_PATH=${CODE_REPO_NAME}/TestAutomation/TestData/dish-test
+             TEST_DATA_FILE=/testing-cicd/${TEST_DATA_PATH}/${DATA_FILE}
+             echo "******"
+             echo $TEST_DATA_FILE
+             ls $TEST_DATA_PATH
+             if [[ -d "$TEST_DATA_FILE" ]]; then
+                     echo file does not exist in $TEST_DATA_PATH
+                     echo "The specified file doees not exist in path. Download and rerun the tests"
+             else
+                     echo "file exists in" $TEST_DATA_PATH
+                     cd ${CODE_REPO_NAME}/TestAutomation/Code/all_rfss/
+                     python3 main_csv.py $TEST_DATA_FILE
+             fi
 
-elif [[ $user_action == [Bb][Oo][Tt][Hh] ]]; then
-        #aws s3 cp s3://ibm-dish-sourcecode/$CODE_REPO_NAME ./
-        #tar -xvf  $CODE_REPO_NAME
-        #cd ${TEST_PATH}
-        python3 main_csv.py $TEST_DATA_PATH/$TEST_DATA_FILE
-else
-        echo "Nothing was entered correctly"
-        exit
-fi
+     elif [[ $user_action == "c" ]]; then
+             #aws s3 cp s3://ibm-dish-sourcecode/$CODE_REPO_NAME ./
+             #tar -xvf  $CODE_REPO_NAME
+             #cd ${TEST_PATH}
+             python3 main_csv.py $TEST_DATA_PATH/$TEST_DATA_FILE
+     elif [[ $user_action == "d" ]];then
+             read -p 'Enter the file name to be copied: ' 'DATA_FILE'
+             echo $DATA_FILE
+             #aws s3 ls s3://$TEST_DATA_BUCKET
+             aws s3 cp s3://$TEST_DATA_BUCKET/$DATA_FILE $TEST_DATA_PATH
+     elif [[ $user_action == "e" ]]; then
+             exit
+     else
+             echo "Nothing was entered correctly"
+             exit
+     fi
+ done
