@@ -52,14 +52,8 @@ echo "LOGIN TO SOURCE SUCCESSFUl"
 
 
 sed -n 's/^.*\([Ii]mage\)/\1/p' $HELM_PATH/composer-values.yaml > out.txt
-sed 's/image://g' out.txt > a.txt
-sed -i '/imagePullPolicy:/d' a.txt
-sed '/^$/d' a.txt > image_list.txt
-sed -i -- 's/imageName: / /g' image_list.txt
-sed -i -- 's/Image: / /g' image_list.txt
-
-
-
+sed 's/image://g' out.txt | sed -i '/imagePullPolicy:/d' a.txt |sed '/^$/d' a.txt > image_list.txt
+sed -i -- 's/imageName: / /g' a.txt| sed -i -- 's/Image: / /g' image_list.txt
 
 
 echo $TARGET_ENV
