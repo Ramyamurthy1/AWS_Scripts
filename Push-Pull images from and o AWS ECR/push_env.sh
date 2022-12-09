@@ -52,5 +52,5 @@ do
   echo "image" $line
   docker push $dst/$line-$TARGET_ENV
 done < image_list.txt
-aws s3 cp composer-values-$TARGET_ENV.yaml s3://cicd-deploy-test-wt1/ibm-sc/composer-values-$TARGET_ENV.yaml
+aws s3 cp $TARGET_ENV.yaml s3://cicd-deploy-test/sc/$TARGET_ENV.yaml
 
