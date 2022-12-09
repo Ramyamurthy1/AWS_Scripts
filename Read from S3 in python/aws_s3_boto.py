@@ -20,17 +20,17 @@ print(session_token)
 
 client = boto3.client(
     's3',
-    aws_access_key_id = 'AKIASEUVLPCLWPJIGWNI',
-    aws_secret_access_key = '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',
+    aws_access_key_id = 'xxxxxxxxxxxxxxxxxxxx',
+    aws_secret_access_key = 'xxxxxxxxxxxxxxxxxxxx',
     region_name = current_region 
 )
 
 resource = boto3.resource(
     's3',
-    aws_access_key_id = 'AKIASEUVLPCLWPJIGWNI',
-    aws_secret_access_key = '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',
+    aws_access_key_id = 'xxxxxxxxxxxxxxxxxxxx',
+    aws_secret_access_key = 'xxxxxxxxxxxxxxxxxxxx',
     region_name = current_region 
-    #region_name = 'us-east-2'
+
 )
 
 
