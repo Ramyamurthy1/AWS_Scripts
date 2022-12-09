@@ -1,7 +1,7 @@
 
-BUCKET_NAME="ibm-dish-sourcecode"
-TEST_DATA_BUCKET="ibm-dish-sourcecode"
-RESULTS_BUCKET="ibm-test-data-cicd-wt2"
+BUCKET_NAME="test"
+TEST_DATA_BUCKET="test"
+RESULTS_BUCKET="results"
 CURRENT_PATH=`pwd`
-CODE_REPO_NAME="COMPOSER-Release-0.22.13"
-EKS_ENV_NAME="dish-test"
+CODE_REPO_NAME="Release"
+EKS_ENV_NAME="test"
