@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034,SC2154
 # ------------------------------------------------------------------------------
-#  PURPOSE:      
+#  PURPOSE:      PUSH ECR images to AWS ECR Recursivly
 # ------------------------------------------------------------------------------
 #  PREREQS: a) 
 #           b) 
@@ -18,7 +18,7 @@
 # ------------------------------------------------------------------------------
 #set -x
 
-# Script to push the ECR images to ECR REP on WT1
+# Script to push the ECR images to ECR REP 
 
 #!/bin/bash
 source env-ecr

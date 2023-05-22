@@ -1,11 +1,22 @@
 
-#############################################################################################################################################################
-####
-#### THIS SCRIT WILL NAVIGATE THROUGH ALL THE AWS REGIONS AND ALL THE EKS CLUSTERS AVAILABLE IN THAT REGIONS AND GGREP FOR THE AVAILABLE LOAD BALANCERS
-#### THE lbS CAAN BE OF TYPE CLASSIC, NETWORK AND APPLICATION
-#### AUTHOR - RAMYA MURTHY
-##############################################################################################################################################################
-
+# ------------------------------------------------------------------------------
+#  PURPOSE:      THIS SCRIT WILL NAVIGATE THROUGH ALL THE AWS REGIONS AND ALL THE EKS CLUSTERS AVAILABLE IN THAT REGIONS AND GREP FOR THE AVAILABLE LOAD BALANCERS
+#                THE lbS CAN BE OF TYPE CLASSIC, NETWORK AND APPLICATION
+# ------------------------------------------------------------------------------
+#  PREREQS: a) 
+#           b) 
+#           c) 
+#           d)
+# ------------------------------------------------------------------------------
+#  EXECUTE: 
+# ------------------------------------------------------------------------------
+#     TODO: 1) 
+# ------------------------------------------------------------------------------
+#   AUTHOR: Ramya Murthy
+# ------------------------------------------------------------------------------
+#  CREATED: 2021/10/
+# ------------------------------------------------------------------------------
+#set -x
 #!/bin/bash
 
 
